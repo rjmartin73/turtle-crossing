@@ -1,5 +1,9 @@
 from turtle import Turtle
 
+STARTING_POS = (0, -280)
+MOVE_DISTANCE = 10
+FINISH_LINE_Y = 280
+
 
 class Player(Turtle):
     def __init__(self):
@@ -7,13 +11,24 @@ class Player(Turtle):
         self.shape("turtle")
         self.color("green")
         self.penup()
-        self.setpos(0, -280)
+        self.goto(STARTING_POS)
         self.seth(90)
 
     def move_up(self):
-        self.forward(20)
-        # print(self.pos())
+        self.seth(90)
+        self.forward(MOVE_DISTANCE)
 
     def move_down(self):
-        self.backward(20)
+        self.seth(90)
+        self.backward(MOVE_DISTANCE)
         # print(self.pos())
+
+    def move_right(self):
+        self.setheading(0)
+        if self.xcor() < 280:
+            self.forward(MOVE_DISTANCE)
+
+    def move_left(self):
+        self.seth(180)
+        if self.xcor() > -280:
+            self.forward(MOVE_DISTANCE)

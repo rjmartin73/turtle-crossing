@@ -1,11 +1,10 @@
-import random
 import time
 from turtle import Screen
 from player import Player
 from car import car_controller, create_cars
+from scoreboard import LevelBoard, GameOverBoard
 cars = []
 level = 1
-
 screen = Screen()
 screen.setup(width=600, height=600)
 screen.tracer(0)
@@ -16,23 +15,25 @@ player = Player()
 def create_board(car_cnt, lvl):
     lvl = lvl
     car_cnt = car_cnt
+    LevelBoard(level=lvl)
     screen.onkey(player.move_up, "Up")
     screen.onkey(player.move_down, "Down")
+    screen.onkey(player.move_right, "Right")
+    screen.onkey(player.move_left, "Left")
     create_cars(car_cnt, lvl)
 
 
 def detect_collision():
-    for turtle in screen.turtles():
-        if turtle != player:
-            if player.distance(turtle) <=5:
-                print("Hit")
-            # print(turtle.shapesize()[1])
+    for t in screen.turtles():
+        if t != player:
+            if t.distance(player) < 20:
+                print("Splat")
+                GameOverBoard()
+                return False
     return True
 
 
-create_board(2 * level, level)
-
-
+create_board(2 * level + 6, level)
 game_on = True
 while game_on:
     car_controller()
@@ -48,6 +49,4 @@ while game_on:
         player = Player()
         create_board(level * 3 + 10, level)
         game_on = True
-
-
 screen.exitonclick()
